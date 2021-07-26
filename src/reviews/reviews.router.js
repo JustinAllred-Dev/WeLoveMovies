@@ -6,7 +6,8 @@ router
   .route("/:reviewId")
   .put(controller.update)
   .delete(controller.delete)
-  .get(controller.list)
   .all(methodNotAllowed);
+
+router.route("/").get(controller.list).all(methodNotAllowed);
 
 module.exports = router;

@@ -5,7 +5,11 @@ function listAll() {
 }
 
 function listIsShowing() {
-  return knex("movies_theaters").select("*").where({ is_showing: true });
+  return knex("movies_theaters as mt")
+    .join("movies as m", "m.movie_id", "mt.movie_id")
+    .select("m.*")
+    .where({ is_showing: true })
+    .groupBy("m.title", "m.movie_id");
 }
 
 function read(movieId) {
