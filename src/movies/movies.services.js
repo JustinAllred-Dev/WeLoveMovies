@@ -12,8 +12,8 @@ function listIsShowing() {
     .groupBy("m.title", "m.movie_id");
 }
 
-function read(movieId) {
-  return knex("movies").select("*").where({ movieId }).first();
+function read(movie_id) {
+  return knex("movies").select("*").where({ movie_id }).first();
 }
 
 module.exports = {

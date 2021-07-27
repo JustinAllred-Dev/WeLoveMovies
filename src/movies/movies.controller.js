@@ -1,15 +1,16 @@
 const moviesServices = require("./movies.services");
 
 async function movieExists(req, res, next) {
-  const { movieId } = req.params.movieId;
   try {
+    const { movieId } = req.params;
     const foundMovie = await moviesServices.read(movieId);
     if (foundMovie) {
-      res.locals.movieId = movieId;
+      res.locals.movie = foundMovie;
       return next();
     }
-  } catch (err) {
     next({ status: 404, message: "Movie cannot be found." });
+  } catch (err) {
+    next(err);
   }
 }
 
@@ -17,11 +18,11 @@ async function list(req, res, next) {
   const { is_showing } = req.query;
   try {
     if (is_showing) {
-      const data = await moviesServices.listIsShowing();
-      return res.json({ data });
+      const showingMovies = await moviesServices.listIsShowing();
+      return res.json({ data: showingMovies });
     }
-    const data = await moviesServices.listAll();
-    res.json({ data });
+    const allMovies = await moviesServices.listAll();
+    res.json({ data: allMovies });
   } catch (err) {
     next(err);
   }
@@ -29,8 +30,7 @@ async function list(req, res, next) {
 
 async function read(req, res, next) {
   try {
-    const foundMovie = await moviesServices.read(res.locals.movieId);
-    return res.json({ foundMovie });
+    return res.json({ data: res.locals.movie });
   } catch (err) {
     next(err);
   }
