@@ -1,7 +1,7 @@
 const moviesServices = require("./movies.services");
 
 async function movieExists(req, res, next) {
-  const movieId = Number(req.params.movieId);
+  const { movieId } = req.params.movieId;
   try {
     const foundMovie = await moviesServices.read(movieId);
     if (foundMovie) {

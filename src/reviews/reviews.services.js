@@ -1,5 +1,7 @@
 const knex = require("../db/connection");
 
+function addCritic() {}
+
 function reviewExists(reviewId) {
   return knex("reviews").select("*").where({ reviewId }).first();
 }
